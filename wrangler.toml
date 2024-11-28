@@ -1,0 +1,11 @@
+name = "your-workers-project"
+type = "javascript"  # 或者 "webpack" 根据你的项目设置
+
+[build]
+command = "npm run build"  # 如果需要构建命令的话
+cwd = "src"  # 指定 Workers 的源代码文件夹，如果使用了自定义路径
+main_module = "src/worker.js"  # 指定你的入口文件，通常是 worker.js 或 index.js
+
+[env.production]
+workers_dev = false
+route = "example.com/*"  # 配置你的部署路径
