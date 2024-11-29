@@ -1,18 +1,10 @@
 export default {
   async fetch(request, env) {
-    const url = new URL(request.url);
-    const actualUrlStr =
-      url.pathname.replace("/proxy/", "") + url.search + url.hash;
-    const actualUrl = new URL(actualUrlStr);
-    const modifiedRequest = new Request(actualUrl, {
-      headers: request.headers,
-      method: request.method,
-      body: request.body,
-      redirect: "follow",
-    });
-    const response = await fetch(modifiedRequest);
-    const modifiedResponse = new Response(response.body, response);
-    modifiedResponse.headers.set("Access-Control-Allow-Origin", "*");
-    return modifiedResponse;
+    const _url = new URL(request.url);
+    _url.hostname = _url.pathname.startsWith("/gh/")
+      ? "cdn.jsdelivr.net"
+      : "www.baidu.com";
+    const req = new Request(_url, request);
+    return fetch(req);
   },
 };
